@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">iRobot_app</string>
+    <string name="DEPLOYER">DEPLOYER</string>
 </resources>
