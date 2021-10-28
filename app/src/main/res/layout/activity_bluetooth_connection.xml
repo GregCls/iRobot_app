@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/BluetoothDevicesList"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BluetoothConnection">
+
+    <Switch
+        android:id="@+id/OnOffBluetooth"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/navy"
+        android:padding="5dp"
+        android:splitTrack="false"
+        android:text="Activer/Désactiver le bluetooth"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:translationY="50dp" />
+
+
+</RelativeLayout>
+
