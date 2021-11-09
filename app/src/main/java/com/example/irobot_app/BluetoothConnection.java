@@ -1,26 +1,38 @@
 package com.example.irobot_app;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.Set;
 
 public class BluetoothConnection extends AppCompatActivity {
 
     private static final int REQUEST_ENABLE_BT = 0;
 
-    @SuppressLint("UseSwitchCompatOrMaterialCode")
     Switch mOnOffBluetooth;
+    ArrayList deviceList = new ArrayList();
     BluetoothAdapter mBlueAdapter;
-    ListView mBluetoothDevicesList;
+    ListView mBluetoothDevices;
+    ListAdapter aAdapter;
+    String selectedDeviceAddress;
+    String selectedDeviceName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +48,7 @@ public class BluetoothConnection extends AppCompatActivity {
         IntentFilter btFilter = new IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED);
         registerReceiver(mBlueReceiver, btFilter);
 
-        checkBluetoothState();
+        checkBluetooth_atStart();
 
         //On Button click
         mOnOffBluetooth.setOnClickListener(new View.OnClickListener() {
@@ -45,7 +57,27 @@ public class BluetoothConnection extends AppCompatActivity {
                 changeBluetoothState();
             }
         });
+
+        //Choose device with click on listview
+        mBluetoothDevices.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
+                // Get the device MAC address, which is the last 17 chars in the View
+                String info = ((TextView) v).getText().toString();
+                String infoArray[] = info.split("\\r?\\n");
+                selectedDeviceName = infoArray[0];
+                selectedDeviceAddress = infoArray[1];
+
+                String ConnectionMessage = ("Connecté à " + selectedDeviceName);
+                Toast.makeText(getApplicationContext(), (String) ConnectionMessage, Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
+
+
     //Bluetooth State change broadcast receiver
     private final BroadcastReceiver mBlueReceiver = new BroadcastReceiver() {
         @Override
@@ -55,17 +87,18 @@ public class BluetoothConnection extends AppCompatActivity {
             if (action.equals(BluetoothAdapter.ACTION_STATE_CHANGED)) {
                 final int state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE,
                         BluetoothAdapter.ERROR);
+
                 switch (state) {
                     case BluetoothAdapter.STATE_ON:
                         mOnOffBluetooth.setChecked(true);
                         mOnOffBluetooth.setText("Bluetooth ON");
-                        mBluetoothDevicesList.setVisibility(View.VISIBLE);
+                        ViewBluetoothDevices();
                         break;
 
                     case BluetoothAdapter.STATE_OFF:
                         mOnOffBluetooth.setChecked(false);
                         mOnOffBluetooth.setText("Bluetooth OFF");
-                        mBluetoothDevicesList.setVisibility(View.GONE);
+                        ClearListView();
                         break;
 
                     case BluetoothAdapter.STATE_TURNING_ON:
@@ -81,14 +114,14 @@ public class BluetoothConnection extends AppCompatActivity {
     };
 
     //Check bluetooth State at the activity Start
-    public void checkBluetoothState(){
+    public void checkBluetooth_atStart(){
         if (mBlueAdapter.isEnabled()){
             mOnOffBluetooth.setChecked(true);
-            mBluetoothDevicesList.setVisibility(View.VISIBLE);
+            ViewBluetoothDevices();
         }
         else{
             mOnOffBluetooth.setChecked(false);
-            mBluetoothDevicesList.setVisibility(View.GONE);
+            ClearListView();
         }
     }
 
@@ -102,5 +135,30 @@ public class BluetoothConnection extends AppCompatActivity {
         }
     }
 
+    private void ViewBluetoothDevices(){
+        if(mBlueAdapter==null){
+            Toast.makeText(getApplicationContext(),"Bluetooth not supported ",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Set<BluetoothDevice> pairedDevices = mBlueAdapter.getBondedDevices();
+            if(pairedDevices.size()>0){
+                for(BluetoothDevice device: pairedDevices){
+                    String deviceName = device.getName();
+                    String macAddress = device.getAddress();
+                    deviceList.add(deviceName + "\n"+macAddress);
+                }
+                mBluetoothDevices = (ListView) findViewById(R.id.PairedDevicesList);
+                aAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, deviceList);
+                mBluetoothDevices.setAdapter(aAdapter);
+            }
+        }
+    }
+
+    public void ClearListView(){
+        deviceList.clear();
+        mBluetoothDevices = (ListView) findViewById(R.id.PairedDevicesList);
+        aAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, deviceList);
+        mBluetoothDevices.setAdapter(aAdapter);
+    }
 
 }
