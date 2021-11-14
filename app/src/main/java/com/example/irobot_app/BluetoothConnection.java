@@ -27,11 +27,11 @@ public class BluetoothConnection extends AppCompatActivity {
 
     Switch mOnOffBluetooth;
     ArrayList deviceList = new ArrayList();
-    BluetoothAdapter mBlueAdapter;
+    public static BluetoothAdapter mBlueAdapter;
     ListView mBluetoothDevices;
     ListAdapter aAdapter;
-    String selectedDeviceAddress;
-    String selectedDeviceName;
+    public static String selectedDeviceAddress;
+    public static String selectedDeviceName;
 
 
     @Override

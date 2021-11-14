@@ -4,8 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".MainActivity"
-    >
+    tools:context=".MainActivity">
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifLOGO"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/backgroung_main" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -58,7 +63,6 @@
             android:text="@string/DEPLOYER" />
 
     </LinearLayout>
-
 
 </RelativeLayout>
 

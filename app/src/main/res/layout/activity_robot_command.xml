@@ -6,12 +6,56 @@
     android:layout_height="match_parent"
     tools:context=".RobotCommand">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/navy">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/CommandText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/robot_font"
+            android:text="COMMANDE"
+            android:textColor="@color/white"
+            android:textSize="26sp">
+        </TextView>
+
+        <com.google.android.material.chip.Chip
+            android:id="@+id/chipDB9"
+            android:layout_margin="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:checkable="true"
+            android:clickable="true"
+            android:text="DB9"
+            app:checkedIcon="@drawable/ic_connected"/>
+
+        <ImageButton
+            android:id="@+id/homebutton"
+            android:layout_margin="4dp"
+            android:paddingLeft="6dp"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:background="#00FFFFFF"
+            android:src="@drawable/ic_home"
+            tools:src="@drawable/ic_home" />
+
+
+    </RelativeLayout>
+
+    <io.github.controlwear.virtual.joystick.android.JoystickView
+        android:id="@+id/joystickView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="CommandPart"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+        android:layout_alignParentBottom="true"
+        app:JV_backgroundColor="#DDDCDD"
+        app:JV_borderColor="@color/navy"
+        app:JV_borderWidth="4dp"
+        app:JV_buttonColor="@color/navy"
+        app:JV_buttonSizeRatio="30%"
+        app:JV_fixedCenter="false" />
+
 </RelativeLayout>
