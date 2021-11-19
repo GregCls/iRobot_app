@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RobotCommand">
+    tools:context=".RobotCommand"
+    android:id="@+id/RobotCommandLayout">
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -29,7 +31,7 @@
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
             android:checkable="true"
-            android:clickable="true"
+            android:clickable="false"
             android:text="DB9"
             app:checkedIcon="@drawable/ic_connected"/>
 
@@ -46,11 +48,18 @@
 
     </RelativeLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:translationY="50dp"
+        android:id="@+id/textView"></TextView>
+
     <io.github.controlwear.virtual.joystick.android.JoystickView
         android:id="@+id/joystickView"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
         app:JV_backgroundColor="#DDDCDD"
         app:JV_borderColor="@color/navy"
         app:JV_borderWidth="4dp"

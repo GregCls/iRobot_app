@@ -155,6 +155,7 @@ public class BluetoothConnection extends AppCompatActivity {
     }
 
     public void ClearListView(){
+
         deviceList.clear();
         mBluetoothDevices = (ListView) findViewById(R.id.PairedDevicesList);
         aAdapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, deviceList);
